@@ -1,0 +1,160 @@
+<project default="compile">
+
+  <!-- build.xml for ChoicePoints2, S11, CS56
+       	@author James Yang
+	@version 2011.05.19
+	-->
+
+	<property environment="env"/> <!-- load the environment variables --> 
+   	<property name="webRoot" value="${env.HOME}/public_html/cs56" />
+   	<property name="webBaseUrl" value="http://www.cs.ucsb.edu/~${env.USER}/cs56" />
+
+	<property name="projectName" value="cs56_S11_0000300" /> 
+	<property name="quarter" value="S11" /> 
+	<property name="issue" value="issues" /> 
+	<property name="number" value="0000300" /> 
+  	<property name="javadocDest" value="${webRoot}/${quarter}/${issue}/${number}/javadoc" /> 
+  	<property name="javadocURL" value="${webRoot}/${quarter}/${issue}/${number}/javadoc" /> 
+	<property name="path" value="edu/ucsb/cs56/S11/jyang0001/choicepoints2" />
+	<property name="package" value="edu.ucsb.cs56.S11.jyang0001.choicepoints2" />
+	<path id="project.class.path">
+	  <pathelement location="build" />
+	  <pathelement location="." />
+	</path>
+
+
+<target name="compile" >  
+  <mkdir dir="build" />
+  <javac srcdir="src" destdir="build" >             
+     <classpath refid="project.class.path" />
+   </javac>
+ </target>
+
+
+<target name="run" depends="compile">
+	<java classname="${package}.SimpleQuery02" fork="true">
+    		<arg value="${arg0}"/>
+    	  	<classpath refid="project.class.path" />
+
+    		<jvmarg value="-Djavax.net.ssl.keyStore=jssecacerts" />
+    		<jvmarg value="-Djavax.net.ssl.keyStorePassword=changeit" />
+    		<jvmarg value="-Djavax.net.ssl.trustStore=jssecacerts" />
+    		<jvmarg value="-Djavax.net.ssl.trustStorePassword=changeit" />
+
+    	</java>
+</target>
+
+<target name="clean" >
+   <delete failonerror="false" verbose="true">
+      <fileset dir="build" includes="*.class"/> 
+    </delete>
+ 	<delete dir="dist" quiet="true" />    
+    	<delete dir="javadoc" quiet="true" />
+ 	<delete dir="download" quiet="true" />                                         
+  	<delete dir="temp" quiet="true" />             
+</target>
+
+  <target name="javadoc" depends="compile">                                                   
+   	<delete dir="javadoc" quiet="true" />                                                          
+   		<javadoc  destdir="javadoc" author="true" version="true" use="true" >                          
+     			<fileset dir="." includes="**/*.java"/>                                                     
+      			<classpath>
+          			<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>      
+       		</classpath>                                                                                 
+   		</javadoc>                                                                                     
+                                                                                                  
+   <!-- delete the old javadoc -->    
+                                                            
+   <delete quiet="true" dir="${javadocDest}" />                                                   
+                                                                                                  
+   <!-- copy everything you just made to the javadoc destination, and then make it readable -->   
+                                                                                                  
+   <copy todir="${javadocDest}" >                                                                 
+     <fileset dir="javadoc"/>                                                                     
+   </copy>                                                                                        
+                                                                                                  
+   <!-- Note: this only does the chmod command on the                                             
+        javadoc subdirectory and its contents.  You MIGHT have to                                 
+        MANUALLY do the chmod on the parent directories.  However,                                
+        you should only need to do that once. -->                                                 
+                                                                                                  
+   <chmod dir="${javadocDest}" perm="755"  type="dir" includes="**" />                            
+   <chmod dir="${javadocDest}" perm="755"  type="file" includes="**/*" />                         
+   <echo>Javadoc deployed to ${javadocURL}</echo>                                                 
+                                                                                                  
+ </target> 
+
+<target name="jar" depends="compile">                                          
+   <mkdir dir="dist" />                                 
+	<jar destfile="dist/${projectName}.jar" basedir="build" >                      
+       	<manifest>                                                                 
+	  <attribute name="Main-Class" value="${package}.SimpleQuery02"/>                 
+	</manifest>                                                                
+  	</jar>                   
+ </target> 
+
+<target name="download" depends="">                                          
+                                                                                  
+  <delete quiet="true">                                                           
+     <fileset dir="temp" includes="**/*" />                                       
+     <fileset dir="download" includes="**/*" />                                    
+  </delete>                                                                       
+                                                                                  
+  <mkdir dir="download" />                                                         
+  <mkdir dir="temp" />                                                            
+  <mkdir dir="temp/${projectName}" />                                             
+                                                                                  
+  <copy todir="temp/${projectName}">                                              
+    <fileset dir="."                                                              
+     excludes="build/**, javadoc/**, **/*~, temp/**, dist/**, download/**"/>       
+  </copy>                                                                         
+                                                                                  
+  <tar destfile="temp/${projectName}.tar"                                         
+       basedir="temp"                                                             
+       includes="${projectName}/**"                                               
+   />                                                                             
+                                                                                  
+  <gzip zipfile="download/${projectName}.tgz"                                      
+        src="temp/${projectName}.tar" />                                          
+                                                 
+ <zip destfile="download/${projectName}.zip"                                      
+       basedir="temp"                                                             
+       includes="${projectName}/**"                                               
+  />                                                                              
+                                                                                  
+  <delete quiet="true">                                                           
+     <fileset dir="temp" includes="**/*"/>                                        
+  </delete>                                                                       
+                                                                                  
+ </target> 
+
+<target name="publish" depends="jar,javadoc,download">                           
+   <mkdir dir="${webRoot}/${quarter}/${issue}/${number}" />                                 
+                                                                                  
+   <delete dir="${webRoot}/${quarter}/${issue}/${number}/browse" />                              
+   <mkdir dir="${webRoot}/${quarter}/${issue}/${number}/browse" />                               
+                                                                                  
+   <delete dir="${webRoot}/${quarter}/${issue}/${number}/download" />                            
+   <mkdir dir="${webRoot}/${quarter}/${issue}/${number}/download" />                             
+                                                                                  
+   <copy file="html/index.html" todir="${webRoot}/${quarter}/${issue}/${number}/"/>               
+                                                                                  
+   <copy todir="${webRoot}/${quarter}/${issue}/${number}/download" >                             
+     <fileset dir="download"/>                                                    
+     <fileset dir="dist" /> 
+   </copy>                                                                        
+                                                                                  
+   <copy file="build.xml" todir="${webRoot}/${quarter}/${issue}/${number}/browse"/>              
+   <copy file="README.txt" todir="${webRoot}/${quarter}/${issue}/${number}/browse"/>
+                                                                                  
+   <copy todir="${webRoot}/${quarter}/${issue}/${number}/browse/src" >                           
+     <fileset dir="src"/>                                                         
+   </copy>                                                                        
+                                                                                  
+   <chmod dir="${webRoot}/S11/issues/0000300/"                                         
+          perm="755" type="both" includes="**/*"/>                                
+                                                                                  
+   <echo>Project published to "${webRoot}/${quarter}/${issue}/${number}/</echo>                 
+ </target>   
+
+</project>
