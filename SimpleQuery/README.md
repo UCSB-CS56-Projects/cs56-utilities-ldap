@@ -5,4 +5,5 @@ You may have to:
 
 (2) run java InstallCert ldap1.engr.ucsb.edu
 
-(3) do the default stuff
+(3) ./runit.sh uid=pconrad cn
+
