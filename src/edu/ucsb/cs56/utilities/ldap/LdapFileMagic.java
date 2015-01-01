@@ -1,4 +1,5 @@
-package edu.ucsb.cs56.S11.jyang0001.choicepoints2;
+package edu.ucsb.cs56.utilities.ldap;
+
 
 import java.io.*;
 import java.util.Hashtable;

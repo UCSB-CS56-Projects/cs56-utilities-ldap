@@ -1,4 +1,5 @@
-package edu.ucsb.cs56.S11.jyang0001.choicepoints2;
+package edu.ucsb.cs56.utilities.ldap;
+
 // Downloaded 1/1/2011 from http://blogs.sun.com/andreas/resource/InstallCert.java
 
 /*

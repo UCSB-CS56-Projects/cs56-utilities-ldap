@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S11.jyang0001.choicepoints2;
+package edu.ucsb.cs56.utilities.ldap;
 
 import javax.naming.*;
 import javax.naming.ldap.*;
