@@ -52,7 +52,7 @@ java -cp build edu.ucsb.cs56.utilities.ldap.InstallCert hostname
 </echo>
   </target>
 
-  <target name="sq2" depends="compile" description="Runs SimpleQuery02--use with ant sq2 -Dinfile=examplelist.txt">
+  <target name="sq2" depends="compile" description="Runs SimpleQuery02--use with ant sq2 -Dinfile=exampleList.txt">
     <echo>
 Run ant installCert first and follow instructions
 You need an input file of lastname,firstname
@@ -77,6 +77,7 @@ Output will be in outputListName.txt
   <target name="clean" description="clean up project">
     <delete failonerror="false" verbose="true">
       <fileset dir="build" includes="*.class"/> 
+      <fileset dir="." includes="outputListName.txt"/> 
     </delete>
     <delete dir="dist" quiet="true" />    
     <delete dir="javadoc" quiet="true" />
