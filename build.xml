@@ -9,7 +9,8 @@
   <property name="package" value="edu.ucsb.cs56.utilities.ldap" />
   <path id="project.class.path">
     <pathelement location="build" />
-    <pathelement location="." />
+    <pathelement location="./lib/" />
+    <pathelement location="lib/junit-4.8.2.jar"/>      
   </path>
   
 
@@ -88,9 +89,7 @@ Output will be in outputListName.txt
     <mkdir dir="javadoc" />
     <javadoc  destdir="javadoc" author="true" version="true" use="true" >                          
       <fileset dir="." includes="**/*.java"/>                                                     
-      <classpath>
-        <pathelement location="lib/junit-4.8.2.jar"/>      
-      </classpath>                                                                                 
+        <classpath refid="project.class.path" />   
     </javadoc>                                                                                     
   </target> 
   
@@ -102,5 +101,23 @@ Output will be in outputListName.txt
       </manifest>                                                                
     </jar>                   
   </target> 
+
+
+<target name="test" depends="compile" description="run JUnit tests">
+
+    <junit haltonerror="no" haltonfailure="no">
+        <classpath refid="project.class.path" />   
+
+       <batchtest fork="yes">
+          <fileset dir="src">
+            <!-- this will pick up every class with a name ending in Test -->
+            <include name="**/*Test.java"/>
+          </fileset>
+       </batchtest>
+
+        <formatter type="plain" usefile="false" /> 
+       
+    </junit>
+</target>
   
 </project>
