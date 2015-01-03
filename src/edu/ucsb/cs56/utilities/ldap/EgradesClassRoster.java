@@ -3,10 +3,11 @@ package edu.ucsb.cs56.utilities.ldap;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.ArrayList;
 
 /** represents a class roster downloaded from Egrades */
 
-public class EgradesClassRoster {
+public class EgradesClassRoster extends ArrayList<CsvRow> {
 
     public final static String USAGE="java -cp build edu.ucsb.cs56.utilities.ldap.EgradesClassRoster infile.csv outfile.csv";
 
@@ -21,6 +22,9 @@ public class EgradesClassRoster {
     }
   
     public static void main (String [] args) throws java.io.IOException {
+
+	EgradesClassRoster roster = new EgradesClassRoster();
+
 	if (args.length != 2) {
 	    System.err.println("Usage: " + USAGE);
 	    System.exit(1);
@@ -34,7 +38,16 @@ public class EgradesClassRoster {
 	    System.exit(2);
 	}
 
-	
+	if (!egrades.get(1).equals("")) {
+	    System.err.println("Error: expecting second line to be blank");
+	    System.exit(3);
+	}
+
+	for (int i=2;i<egrades.size(); i++) {
+	    roster.add(new CsvRow(EGRADES_HEADER,egrades.get(i)));
+	}
+
+	System.out.println("roster=" + roster);
 	
     }
 
