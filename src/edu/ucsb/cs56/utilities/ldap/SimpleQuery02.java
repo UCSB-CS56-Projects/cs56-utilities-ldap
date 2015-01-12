@@ -7,15 +7,19 @@ import java.util.Hashtable;
 import java.util.ArrayList;
 
 /**
-   This code is based on the SimpleQuery class, which originally
-   comes from a programming named Adam Smith, and was posted at the link shown below.
+   This code is based on the SimpleQuery class, which originally comes
+   from a programmer named Adam Smith, and was posted at the link
+   shown below.
 
-   I've added the ability to authenticate using the username/password found in /etc/ldap.conf
+   I've added the ability to authenticate using the username/password
+   found in /etc/ldap.conf
 
-   The parsing of /etc/ldap.conf is my own (that comes from the separate class LdapCredentials).
+   The parsing of /etc/ldap.conf was added by Conrad (that comes from the
+   separate class LdapCredentials).
 
-   Some of the authentication code comes from a post from a programmer named Rene Moser who blogs at renemoser.net
-   (see second link below.)
+   Some of the authentication code comes from a post from a programmer
+   named Rene Moser who blogs at renemoser.net (see second link
+   below.)
 
    @author Adam Smith (original author)
    @author Phill Conrad (adapted for UCSB College of Engineering LDAP)
@@ -37,7 +41,8 @@ public class SimpleQuery02 {
 	}
 	
 	ArrayList<String> origNameList = new ArrayList<String>();
-	ArrayList<String> nameList = LdapFileMagic.listFileReader(args[0], origNameList);
+	ArrayList<String> nameList = 
+	    LdapFileMagic.listFileReader(args[0], origNameList);
 	ArrayList<String> csilUsernameList = new ArrayList<String>();
 
         StringBuffer output = new StringBuffer();
