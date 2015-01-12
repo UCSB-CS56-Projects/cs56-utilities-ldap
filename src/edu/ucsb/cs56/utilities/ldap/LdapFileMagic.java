@@ -1,11 +1,14 @@
 package edu.ucsb.cs56.utilities.ldap;
 
 
+
 import java.io.*;
 import java.util.Hashtable;
 import java.util.ArrayList;
 
-/** Reads the last name and first name of each individual in a text document provided by the user (each line format: lastname, firstname) and parses the data for lookup using LDAP queries.
+/** Reads the last name and first name of each individual in a text
+ * document provided by the user (each line format: lastname,
+ * firstname) and parses the data for lookup using LDAP queries.
 
    @author Ryan McGinley 
    @author James Yang 
