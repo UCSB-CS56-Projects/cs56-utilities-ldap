@@ -1,5 +1,6 @@
 cs56-utilities-ldap
 ===================
+Was unable to get project to run (the README.txt file's instructions did not work).  Difficulty in running project and limited number of existing or proposed Github issues lead me to recommend this project not be used unless necessary (David Coffill).
 
 Utilities for LDAP (Lightweight Directory Access Protocol), e.g. for getting information on CSIL accounts
 
